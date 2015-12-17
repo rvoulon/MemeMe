@@ -15,11 +15,11 @@ struct Meme {
     var sourceImage: UIImage?
     var memedImage: UIImage!
     
-    init(upperText: String, bottomText: String, sourceImage: UIImage, memedImage: UIImage) {
-        self.upperText = upperText
-        self.bottomText = bottomText
-        self.sourceImage = sourceImage
-        self.memedImage = memedImage
-        
-    }
+//    init(upperText: String, bottomText: String, sourceImage: UIImage, memedImage: UIImage) {
+//        self.upperText = upperText
+//        self.bottomText = bottomText
+//        self.sourceImage = sourceImage
+//        self.memedImage = memedImage
+    
+//    }
 }

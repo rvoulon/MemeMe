@@ -48,8 +48,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         // Configure the zooming bounds for the image
         // https://www.veasoftware.com/tutorials/2015/8/3/pinch-to-zoom-uiimageview-with-swift
-        self.imageScrollView.minimumZoomScale = 1.0
-        self.imageScrollView.maximumZoomScale = 6.0
+        imageScrollView.minimumZoomScale = 1.0
+        imageScrollView.maximumZoomScale = 6.0
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -82,8 +82,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func save() {
         // Create the meme
-        self.memedImage = generateMemedImage()
-        _ = Meme(upperText: topTextField.text!, bottomText: bottomTextField.text!, sourceImage: imagePickerView.image!, memedImage: self.memedImage!)
+        memedImage = generateMemedImage()
+        _ = Meme(upperText: topTextField.text!, bottomText: bottomTextField.text!, sourceImage: imagePickerView.image!, memedImage: memedImage!)
         
     }
     
@@ -118,7 +118,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
-        self.activeField = textField
+        activeField = textField
         
         if textField == topTextField {
             if textField.text == "TOP" {
@@ -131,9 +131,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
-    // TODO: Not sure this is desired behaviour. In cases where you only want
-    // to use one text field you should be able to leave one empty.
-    // Maybe we just want to add placeholder text (textField.placeholder)
     func textFieldDidEndEditing(textField: UITextField) {
         if textField.text == "" {
             if textField == topTextField {
@@ -143,7 +140,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
         
-        self.activeField = nil
+        activeField = nil
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -160,12 +157,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             shareButton.enabled = true
         }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: Keyboard methods
@@ -194,19 +191,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // When the keyboard shows, we use an inset that has the size of the
         // keyboard, and we'll scroll the scrollview up appropriately.
-        self.scrollView.scrollEnabled = true
+        scrollView.scrollEnabled = true
         let info: NSDictionary = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
         let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
         
-        self.scrollView.contentInset = contentInsets
-        self.scrollView.scrollIndicatorInsets = contentInsets
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
         
-        var aRect : CGRect = self.view.frame
+        var aRect : CGRect = view.frame
         aRect.size.height -= keyboardSize!.height
         if let _ = activeField {
             if (!CGRectContainsPoint(aRect, activeField!.frame.origin)) {
-                self.scrollView.scrollRectToVisible(activeField!.frame, animated: true)
+                scrollView.scrollRectToVisible(activeField!.frame, animated: true)
             }
         }
     }
@@ -217,17 +214,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
         let contentInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
         
-        self.scrollView.contentInset = contentInsets
-        self.scrollView.scrollIndicatorInsets = contentInsets
-        self.view.endEditing(true)
-        self.scrollView.scrollEnabled = false
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        view.endEditing(true)
+        scrollView.scrollEnabled = false
     }
     
     // MARK: UIScrollViewDelegate methods
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         
-        return self.imagePickerView
+        return imagePickerView
     }
     
     // MARK: IBAction methods
@@ -237,14 +234,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func shareMeme(sender: AnyObject) {
         
         // generate a memed image and pass it to an activity view controller
-        self.memedImage = generateMemedImage()
-        let activityVC = UIActivityViewController(activityItems: [self.memedImage!], applicationActivities: nil)
+        memedImage = generateMemedImage()
+        let activityVC = UIActivityViewController(activityItems: [memedImage!], applicationActivities: nil)
 
         // completion handler for activity view controller:
         // save the meme and dismiss the view controller when done.
@@ -254,7 +251,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.dismissViewControllerAnimated(true, completion: nil)
         }
 
-        self.presentViewController(activityVC, animated: true, completion: nil)
+        presentViewController(activityVC, animated: true, completion: nil)
     }
     
     @IBAction func takeAPicture(sender: AnyObject) {
@@ -263,7 +260,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
 }
 
